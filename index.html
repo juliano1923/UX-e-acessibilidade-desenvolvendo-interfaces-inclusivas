@@ -1,0 +1,509 @@
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Digital Seguro - Dicas de Segurança para Idosos</title>
+  <style>
+    /* RESET E VARIÁVEIS DE ESTILO */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-color: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-color: #1a1a1a;
+      --primary-color: #0d5c91;
+      --primary-hover: #083d61;
+      --accent-color: #d9534f;
+      --accent-green: #2e7d32;
+      --border-color: #cccccc;
+      --font-scale: 1;
+      --font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* ESTILOS DE ALTO CONTRASTE (Via CSS Pure com checkbox) */
+    #high-contrast-toggle:checked ~ .app-container {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --text-color: #ffffff;
+      --primary-color: #ffd700;
+      --primary-hover: #ffea00;
+      --accent-color: #ff6b6b;
+      --accent-green: #00ff66;
+      --border-color: #ffffff;
+    }
+
+    /* CONTROLE DE TAMANHO DE FONTE VIA CSS (Checkboxes/Radios) */
+    #font-large:checked ~ .app-container {
+      --font-scale: 1.25;
+    }
+
+    #font-xlarge:checked ~ .app-container {
+      --font-scale: 1.5;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-family);
+      font-size: calc(18px * var(--font-scale));
+      line-height: 1.6;
+      padding-bottom: 50px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* ESCONDER CONTROLES INVISÍVEIS DE CSS */
+    .hidden-control {
+      display: none;
+    }
+
+    /* BARRA SUPERIOR E ACESSIBILIDADE */
+    .accessibility-bar {
+      background-color: #000;
+      color: #fff;
+      padding: 10px 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .accessibility-bar label {
+      cursor: pointer;
+      background-color: #333;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 2px solid #fff;
+      font-weight: bold;
+      font-size: 0.9rem;
+      display: inline-block;
+      user-select: none;
+    }
+
+    .accessibility-bar label:hover,
+    .accessibility-bar label:focus {
+      background-color: #555;
+    }
+
+    .font-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* CABEÇALHO DO APLICATIVO */
+    header {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      padding: 25px 20px;
+      text-align: center;
+      border-bottom: 5px solid var(--accent-green);
+    }
+
+    #high-contrast-toggle:checked ~ .app-container header {
+      color: #000000;
+    }
+
+    header h1 {
+      font-size: calc(1.8rem * var(--font-scale));
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: calc(1.1rem * var(--font-scale));
+    }
+
+    /* LAYOUT PRINCIPAL */
+    .app-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* NAVEGAÇÃO POR ABAS (100% CSS) */
+    .tabs-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      flex: 1 1 200px;
+      padding: 15px 10px;
+      background-color: #e0e0e0;
+      color: #000;
+      text-align: center;
+      font-weight: bold;
+      font-size: calc(1rem * var(--font-scale));
+      border: 3px solid var(--border-color);
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+      display: block;
+    }
+
+    /* ESTILOS DE ABAS ATIVAS */
+    #tab-golpes-check:checked ~ .app-container .tab-btn[for="tab-golpes-check"],
+    #tab-senhas-check:checked ~ .app-container .tab-btn[for="tab-senhas-check"],
+    #tab-whatsapp-check:checked ~ .app-container .tab-btn[for="tab-whatsapp-check"],
+    #tab-emergencia-check:checked ~ .app-container .tab-btn[for="tab-emergencia-check"] {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border-color: var(--primary-color);
+    }
+
+    #high-contrast-toggle:checked ~ .app-container #tab-golpes-check:checked ~ .tab-btn[for="tab-golpes-check"],
+    #high-contrast-toggle:checked ~ .app-container .tab-btn {
+      border-color: #ffffff;
+    }
+
+    #high-contrast-toggle:checked ~ .app-container #tab-golpes-check:checked ~ .app-container .tab-btn[for="tab-golpes-check"],
+    #high-contrast-toggle:checked ~ .app-container #tab-senhas-check:checked ~ .app-container .tab-btn[for="tab-senhas-check"],
+    #high-contrast-toggle:checked ~ .app-container #tab-whatsapp-check:checked ~ .app-container .tab-btn[for="tab-whatsapp-check"],
+    #high-contrast-toggle:checked ~ .app-container #tab-emergencia-check:checked ~ .app-container .tab-btn[for="tab-emergencia-check"] {
+      color: #000000;
+    }
+
+    /* CONTEÚDO DAS ABAS */
+    .tab-content {
+      display: none;
+      background-color: var(--card-bg);
+      padding: 25px;
+      border-radius: 15px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #tab-golpes-check:checked ~ .app-container #content-golpes,
+    #tab-senhas-check:checked ~ .app-container #content-senhas,
+    #tab-whatsapp-check:checked ~ .app-container #content-whatsapp,
+    #tab-emergencia-check:checked ~ .app-container #content-emergencia {
+      display: block;
+    }
+
+    /* CARDS E QUADROS DE ALERTA */
+    .tip-card {
+      background-color: var(--card-bg);
+      border-left: 8px solid var(--primary-color);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border-top: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .warning-box {
+      background-color: rgba(217, 83, 79, 0.15);
+      border: 3px solid var(--accent-color);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    .success-box {
+      background-color: rgba(46, 125, 50, 0.15);
+      border: 3px solid var(--accent-green);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    h2 {
+      font-size: calc(1.5rem * var(--font-scale));
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    #high-contrast-toggle:checked ~ .app-container h2 {
+      color: var(--primary-color);
+    }
+
+    h3 {
+      font-size: calc(1.2rem * var(--font-scale));
+      margin-bottom: 10px;
+    }
+
+    ul, ol {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    /* BOTÕES DE AÇÃO / NÚMEROS ÚTEIS */
+    .emergency-button {
+      display: block;
+      width: 100%;
+      background-color: var(--accent-color);
+      color: #ffffff;
+      text-align: center;
+      padding: 18px;
+      border-radius: 12px;
+      font-size: calc(1.2rem * var(--font-scale));
+      font-weight: bold;
+      text-decoration: none;
+      margin-bottom: 15px;
+      border: 2px solid transparent;
+    }
+
+    .emergency-button:hover,
+    .emergency-button:focus {
+      opacity: 0.9;
+      outline: 4px solid #000;
+    }
+
+    /* CHECKLIST INTERATIVO (SEM JS) */
+    .checklist {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .checklist li {
+      background-color: rgba(0, 0, 0, 0.03);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .checklist input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    /* DESTAQUES DE TEXTO */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    #high-contrast-toggle:checked ~ .app-container .badge {
+      color: #000;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      border-top: 2px solid var(--border-color);
+      font-size: calc(0.9rem * var(--font-scale));
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CONTROLES OCULTOS DE ESTADO (SEM JS) -->
+  <input type="checkbox" id="high-contrast-toggle" class="hidden-control">
+  
+  <input type="radio" name="font-size" id="font-normal" class="hidden-control" checked>
+  <input type="radio" name="font-size" id="font-large" class="hidden-control">
+  <input type="radio" name="font-size" id="font-xlarge" class="hidden-control">
+
+  <input type="radio" name="tabs" id="tab-golpes-check" class="hidden-control" checked>
+  <input type="radio" name="tabs" id="tab-senhas-check" class="hidden-control">
+  <input type="radio" name="tabs" id="tab-whatsapp-check" class="hidden-control">
+  <input type="radio" name="tabs" id="tab-emergencia-check" class="hidden-control">
+
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="app-container">
+
+    <!-- BARRA DE ACESSIBILIDADE FIXA NO TOPO -->
+    <div class="accessibility-bar" aria-label="Opções de Acessibilidade">
+      <div>
+        <label for="high-contrast-toggle" title="Alternar Modo de Alto Contraste">
+          👁️ Alto Contraste
+        </label>
+      </div>
+
+      <div class="font-controls">
+        <span style="font-size: 0.9rem; font-weight: bold; margin-right: 5px;">Tamanho da Fonte:</span>
+        <label for="font-normal" title="Tamanho de Fonte Normal">A</label>
+        <label for="font-large" title="Tamanho de Fonte Grande">A+</label>
+        <label for="font-xlarge" title="Tamanho de Fonte Muito Grande">A++</label>
+      </div>
+    </div>
+
+    <!-- CABEÇALHO -->
+    <header role="banner">
+      <h1>🛡️ Guia Digital Seguro</h1>
+      <p>Sua internet mais segura, simples e sem complicações.</p>
+    </header>
+
+    <!-- NAVEGAÇÃO DE ABAS -->
+    <nav class="tabs-nav" aria-label="Menu de Navegação Principal">
+      <label for="tab-golpes-check" class="tab-btn" tabindex="0" role="button">
+        🚨 Golpes Comuns
+      </label>
+      <label for="tab-senhas-check" class="tab-btn" tabindex="0" role="button">
+        🔑 Senhas Seguras
+      </label>
+      <label for="tab-whatsapp-check" class="tab-btn" tabindex="0" role="button">
+        📱 Segurança no WhatsApp
+      </label>
+      <label for="tab-emergencia-check" class="tab-btn" tabindex="0" role="button">
+        📞 O que Fazer / Telefones
+      </label>
+    </nav>
+
+    <!-- ABA 1: GOLPES COMUNS -->
+    <main class="tab-content" id="content-golpes" role="tabpanel">
+      <h2>🚨 Como Identificar Golpes na Internet</h2>
+      <p>Os golpistas tentam enganar usando mensagens urgentes ou promessas fáceis. Fique atento às dicas abaixo:</p>
+
+      <div class="warning-box">
+        <h3>⚠️ Regra Ouro da Segurança:</h3>
+        <p><strong>Nenhum banco ou órgão do governo</strong> pede sua senha ou código do celular pelo WhatsApp ou por ligação de telefone!</p>
+      </div>
+
+      <div class="tip-card">
+        <h3>1. Mensagens de Bancos ou Prêmios</h3>
+        <p>Se receber uma mensagem dizendo que sua conta foi bloqueada ou que você ganhou um prêmio:</p>
+        <ul>
+          <li><strong>Não clique</strong> em links (endereços de sites).</li>
+          <li><strong>Não ligue</strong> para os números enviados na mensagem.</li>
+          <li>Ligue diretamente para o seu banco usando o número do seu cartão.</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <h3>2. Falsas Compras ou Promoções Fáceis</h3>
+        <p>Sites falsos vendem produtos muito baratos para roubar dados do cartão de crédito.</p>
+        <ul>
+          <li>Desconfie de preços ridiculamente baixos.</li>
+          <li>Compre apenas em lojas conhecidas.</li>
+          <li>Prefira pagar via Boleto ou Pix em vez de digitar seu cartão em sites desconhecidos.</li>
+        </ul>
+      </div>
+
+      <div class="success-box">
+        <h3>✅ Checklist de Segurança na Leitura de Mensagens:</h3>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" id="check1">
+            <label for="check1">Eu conheço quem me mandou essa mensagem?</label>
+          </li>
+          <li>
+            <input type="checkbox" id="check2">
+            <label for="check2">A mensagem está pedindo dinheiro urgente?</label>
+          </li>
+          <li>
+            <input type="checkbox" id="check3">
+            <label for="check3">Há erros de português na mensagem?</label>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- ABA 2: SENHAS SEGURAS -->
+    <section class="tab-content" id="content-senhas" role="tabpanel">
+      <h2>🔑 Dicas para Criar Senhas Fortes</h2>
+      <p>As senhas são as chaves da sua casa digital. Veja como deixá-las bem protegidas:</p>
+
+      <div class="tip-card">
+        <h3>❌ O que NÃO fazer ao criar uma senha:</h3>
+        <ul>
+          <li>Não use sua data de nascimento ou nome dos netos/filhos.</li>
+          <li>Não use senhas fáceis como "123456" ou "senha".</li>
+          <li>Não use a mesma senha para tudo (banco, e-mail, redes sociais).</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <h3>✅ Como criar uma senha fácil de lembrar e segura:</h3>
+        <p>Pense em uma frase simples que você gosta e adicione números ou símbolos.</p>
+        <p><strong>Exemplo:</strong> <code>MeuCafe35!</code> (Combina letras maiúsculas, minúsculas, números e um símbolo).</p>
+      </div>
+
+      <div class="warning-box">
+        <h3>📝 Onde guardar minhas senhas?</h3>
+        <p>Se for difícil memorizar, anote suas senhas em um <strong>caderno de papel em sua casa</strong>. Guarde esse caderno em um local seguro, assim como guarda seus documentos. <strong>Nunca salve senhas em papéis soltos na carteira ou em mensagens no celular.</strong></p>
+      </div>
+    </section>
+
+    <!-- ABA 3: SEGURANÇA NO WHATSAPP -->
+    <section class="tab-content" id="content-whatsapp" role="tabpanel">
+      <h2>📱 Protegendo o seu WhatsApp</h2>
+      <p>O WhatsApp é o aplicativo mais usado pelos golpistas. Proteja-se com estes passos simples:</p>
+
+      <div class="tip-card">
+        <h3>1. O Golpe do "Novo Número"</h3>
+        <p>Se algum familiar ou amigo mandar mensagem de um número novo pedindo dinheiro falando que mudou de número:</p>
+        <p><strong>O que fazer:</strong> Ligue imediatamente para o número ANTIGO dessa pessoa para confirmar se é verdade antes de enviar qualquer valor!</p>
+      </div>
+
+      <div class="tip-card">
+        <h3>2. Ative a "Confirmação em Duas Etapas"</h3>
+        <p>Essa opção coloca uma senha de 6 dígitos no seu WhatsApp para evitar que ele seja roubado.</p>
+        <ol>
+          <li>Abra o WhatsApp.</li>
+          <li>Toque em <strong>Configurações</strong> (ou 3 pontinhos no topo).</li>
+          <li>Toque em <strong>Conta</strong>.</li>
+          <li>Toque em <strong>Confirmação em duas etapas</strong> e ative.</li>
+        </ol>
+      </div>
+
+      <div class="warning-box">
+        <h3>🚫 Código de 6 dígitos do SMS</h3>
+        <p>Se chegar um torpedo (SMS) no seu celular com um código de 6 números, <strong>JAMAIS passe esse código para ninguém!</strong> Ele dá acesso ao seu WhatsApp.</p>
+      </div>
+    </section>
+
+    <!-- ABA 4: EMERGÊNCIA / O QUE FAZER -->
+    <section class="tab-content" id="content-emergencia" role="tabpanel">
+      <h2>📞 Fui Vítima de um Golpe. O que fazer?</h2>
+      <p>Não entre em pânico! Mantenha a calma e siga esses passos imediatamente:</p>
+
+      <div class="tip-card">
+        <h3>Passo a Passo de Emergência:</h3>
+        <ol>
+          <li><strong>Avisar o Banco:</strong> Ligue para o número que está atrás do seu cartão de banco e peça o bloqueio temporário das contas/cartões.</li>
+          <li><strong>Avise Parentes e Amigos:</strong> Diga a eles que sua conta ou celular pode ter sido invadido para que não enviem dinheiro.</li>
+          <li><strong>Boletim de Ocorrência:</strong> Faça um Boletim de Ocorrência na Polícia Civil (pode ser feito presencialmente ou pela internet).</li>
+        </ol>
+      </div>
+
+      <h3>Contatos e Telefones Úteis:</h3>
+
+      <a href="tel:190" class="emergency-button">
+        📞 Ligar para a Polícia Militar - 190
+      </a>
+
+      <a href="tel:181" class="emergency-button" style="background-color: #0d5c91;">
+        📞 Disk Denúncia - 181
+      </a>
+
+      <div class="success-box">
+        <h3>💡 Dica de Ouro:</h3>
+        <p>Tenha sempre anotado em um papel o telefone de um parente ou amigo de confiança para te ajudar caso algo aconteça com seu celular.</p>
+      </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer role="contentinfo">
+      <p><strong>Guia Digital Seguro</strong> - Desenvolvido para promover a inclusão e segurança digital do idoso.</p>
+      <p>Conteúdo educativo. Compartilhe com quem você ama!</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
